@@ -34,7 +34,7 @@ export default async function handler(req,res){
         path: '/',
         maxAge: 60 * 15
     }))
-    res.status(201).json({token})
+    res.status(201).end()
 
 
 }

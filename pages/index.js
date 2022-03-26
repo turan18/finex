@@ -15,10 +15,10 @@ export default function Home() {
             </div>
             <div className='pt-11'>
               <div className='flex w-1/2 lg:1/4 gap-x-4'>
-                <Link href={'/auth/signup'}>
+                <Link href={'/signup'}>
                   <a className='w-2/3 p-2 text-white bg-blue-800 rounded-md text-lg text-center hover:cursor-pointer'>Sign Up</a>
                 </Link>
-                <Link href={'/auth/login'}>
+                <Link href={'/login'}>
                   <a className='w-2/3 p-2 text-white bg-blue-800 rounded-md text-lg text-center hover:cursor-pointer'>Login</a>
                 </Link>
               </div>
@@ -92,4 +92,12 @@ export default function Home() {
       </section>
     </div>
   )
+}
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      protected: false
+    }
+  };
 }

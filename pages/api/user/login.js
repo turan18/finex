@@ -18,11 +18,12 @@ export default async function handler(req,res){
             email : user.email
         }
         const token = jwt.sign(derivedFromUser,process.env.SECRET)
+        
         res.setHeader('Set-Cookie',cookie.serialize('jwtToken',token,{
             httpOnly: true,
             path: '/',
             maxAge: 60 * 15
         }))
-        res.status(200).json({token})
+        res.status(200).end()
     }    
 }

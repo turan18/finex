@@ -1,17 +1,20 @@
-import {useState,React} from 'react'
 import { useRouter } from 'next/router'
-import AuthService from '../../services/AuthService'
-
+import {useState,React} from 'react'
+import useUser from '../hooks/useUser'
+import AuthService from '../services/AuthService'
 
 export default function login() {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
-    const router = useRouter()
+    const {login} = useUser()
+    // const router = useRouter()
 
-    function loginHandler(e){
+    async function loginHandler(e){
         e.preventDefault()
-        AuthService.loginUser({username,password},router)
+        login(true,{username,password})
+
     }
+
     return (
         <div className='w-screen h-screen bg-landing bg-no-repeat bg-center bg-fixed bg-cover flex flex-col justify-center items-center gap-y-6'>
             <div className='h-60 w-2/3 lg:w-1/5 md:w-5/12 bg-slate-800 text-white p-4 rounded-xl flex flex-col shadow-md shadow-indigo-600'>
@@ -36,5 +39,14 @@ export default function login() {
                 
             </div>
         </div>  
-      )
+        )
+    
+}
+
+export async function getStaticProps(context) {
+    return {
+      props: {
+        protected: false
+      }
+    };
 }
