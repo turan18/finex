@@ -13,6 +13,9 @@ function MyApp({ Component, pageProps }) {
     if(!user && pageProps.protected){
       router.push('/login')
     }
+    if(user != null && router.pathname === '/login' || router.pathname === '/signup'){
+      router.push('/dashboard')
+    }
     else if(user!=null){
       setUser(user)
     }
