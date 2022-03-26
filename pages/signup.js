@@ -7,7 +7,6 @@ export default function signup() {
     const [email,setEmail] = useState('')
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
-    // const router = useRouter()
     const {login} = useUser()
     
     
@@ -53,4 +52,4 @@ export async function getStaticProps(context) {
         protected: false
       }
     };
-  }
+}
