@@ -1,11 +1,19 @@
 import { useRouter } from 'next/router';
-import {React} from 'react'
+import {useEffect,React} from 'react'
 import useUser from '../../hooks/useUser';
+import CryptoService from '../../services/CryptoService';
+import StockService from '../../services/StockService';
 
 
 
-export default function dashboard() {
+export default function dashboard(props) {
     
+    useEffect(() => {
+        console.log(props.crpytocurrencies);
+        console.log(props.stocks);
+
+    },[])
+
     const {user,logout} = useUser()
 
     function handleLogout(){
@@ -20,10 +28,14 @@ export default function dashboard() {
 }
 
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
+    const crpytocurrencies = await CryptoService.getTopFiveCrypto()
+    const stocks = await StockService.getTopFiveStock()
     return {
       props: {
-        protected: true
+        protected: true,
+        crpytocurrencies,
+        stocks
       }
     };
 }
