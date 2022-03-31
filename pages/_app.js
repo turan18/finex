@@ -11,7 +11,6 @@ function MyApp({ Component, pageProps }) {
   useEffect(async () => {
     const user = await AuthService.getUser()
     if(!user && pageProps.protected){
-      console.log('YESSIR');
       router.push('/login')
     }
     if(user && (router.pathname === '/login' || router.pathname === '/signup')){

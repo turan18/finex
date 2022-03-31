@@ -1,13 +1,10 @@
-import { useRouter } from 'next/router'
 import {useState,React} from 'react'
 import useUser from '../hooks/useUser'
-import AuthService from '../services/AuthService'
 
 export default function login() {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
     const {login} = useUser()
-    // const router = useRouter()
 
     async function loginHandler(e){
         e.preventDefault()

@@ -13,7 +13,7 @@ async function getTopTwentyCrypto(){
     return json.data.coins.slice(0,20)
 }
 
-async function getTopFiveCrypto(){
+async function getDashboardCrypto(){
     const response = await fetch(BASE_URL + '/coins', {
         headers : {
             'X-Access-Token' : API_KEY,
@@ -21,7 +21,8 @@ async function getTopFiveCrypto(){
         }
     })
     const json = await response.json()
-    return json.data.coins.slice(0,5)
+    const chart = await getTimeSeriesData(json.data.coins[0].uuid)
+    return [json.data.coins.slice(0,5),chart]
 }
 
 async function getCryptoByID(currencyId){
@@ -44,16 +45,16 @@ async function getCryptoByName(name){
         return null
     }
 }
-async function getTimeSeriesData(currencyId,timePeriod){
+async function getTimeSeriesData(currencyId,timePeriod="30d"){
     const response = await fetch(BASE_URL + `/coin/${currencyId}/history?timePeriod=30d`, {
         headers : {
             'X-Access-Token' : API_KEY,
             'Accept': 'application/json'
         }
     })
-    const json = response.json()
+    const json = await response.json()
     return json.data.history
 }   
 
 
-export default {getTopTwentyCrypto,getTopFiveCrypto,getCryptoByID,getCryptoByName,getTimeSeriesData}
+export default {getTopTwentyCrypto,getDashboardCrypto,getCryptoByID,getCryptoByName,getTimeSeriesData}

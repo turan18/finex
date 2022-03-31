@@ -1,38 +1,51 @@
-const BASE_RECOMMENDATIONS_URL = 'https://yfapi.net/v6/finance'
-const YAHOO_API_KEY = process.env.YAHOO_API_KEY
-
 const BASE_URL = 'https://api.stockdata.org/v1'
-const API_KEY = process.env.STOCK_API_KEY
-
-
-
+const API_KEY = process.env.STOCK_ORG_API_KEY
+import finnhubClient from "./client-sdk"
 
 
 async function getCompanies(){
-    const endpoint = '/recommendationsbysymbol'
-    const params = '/AMZN%2CGOOG%2CBAC%2CWMT%2CINTC%2CNKE%2CDIS%2CCMCSA%2CUPS'
-    const response = await fetch(BASE_RECOMMENDATIONS_URL + endpoint + params,{
-        headers : {
-            'Accept': 'application/json',
-            'X-API-KEY' : YAHOO_API_KEY
-        }
-    })
-    const json = await response.json()
-    const companies = new Set()
-    for(let company of json.finance.result){
-        companies.add(company.symbol)
-        for(let r of company.recommendedSymbols){
-            companies.add(r.symbol)
-        }
-    }  
-    return Array.from(companies)
+
+    function getTechnology(){
+        return new Promise((resolve,reject) => {
+            finnhubClient.companyPeers("AAPL", (error, data, response) => {
+                if(error){
+                    return reject(error)
+                }
+                return resolve(data)
+            })
+        });
+    }
+    function getRetail(){
+        return new Promise((resolve,reject) => {
+            
+            finnhubClient.companyPeers("WMT", (error, data, response) => {
+                if(error){
+                    return reject(error)
+                }
+                return resolve(data)
+            })
+        })
+    }
+    
+    function getAutomotive(){
+        return new Promise((resolve,reject) => {
+            finnhubClient.companyPeers("F", (error, data, response) => {
+                if(error){
+                    return reject(error)
+                }
+                return resolve(data)
+            })
+        })
+    }
+    const tech = await getTechnology()
+    const retail = await getRetail()
+    const auto = await getAutomotive()
+    return Array.from(new Set(...[tech.concat(retail).concat(auto)]))
+  
 }
 
-async function getTopFiveStock(){
-    const c1 = await getCompanies()
-    console.log(c1);
+async function getDashboardStocks(){
     const companies = (await getCompanies()).slice(0,5)
-    
     const first_set = companies.slice(0,3)
     const second_set = companies.slice(3)
     const endpoint = '/data/quote'
@@ -48,7 +61,7 @@ async function getTopFiveStock(){
         }
     })
     const json_1 = await response_1.json()
-    
+
     const response_2 = await fetch(BASE_URL + endpoint + params_2,{
         headers : {
             'Accept': 'application/json'
@@ -56,26 +69,35 @@ async function getTopFiveStock(){
     })
     const json_2 = await response_2.json()
     
-
-    const data = json_1.data.concat(json_2.data)
+    try{
+        const data = json_1.data.concat(json_2.data)
+    }
+    catch(err){
+        console.log(err);
+        return []
+    }
     return data
-
 }
 
-async function getTimeSeriesDataToday(symbol, interval='minute'){
-    const endpoint = '/data/intraday'
-    const todayDate = new Date().toJSON().slice(0,10)
-    const params = `?symbols=${symbol}&interval=${interval}&date=${todayDate}&api_token=${API_KEY}`
-    const response = await fetch(BASE_URL + endpoint + params,{
-        headers : {
-            'Accept': 'application/json'
-        }
+async function getTimeSeriesDataForOneDay(symbol, interval="1"){
+    const todaysDate = Math.floor(Date.now() / 1000)
+    const yesterdayDate = Math.floor((Date.now() / 1000)) - 86400
+    
+    const data = await new Promise((resolve,reject) => {
+        finnhubClient.stockCandles(symbol,interval,yesterdayDate,todaysDate,(error, data, response) => {
+            if(error){
+                return reject(error)
+            }else{
+                return resolve(data)
+            }
+        });
     })
-    const json = await response.json()
-    const data = json.data
     return data
 }
 
 
 
-export default {getTimeSeriesDataToday,getCompanies,getTopFiveStock}
+export default {getTimeSeriesDataForOneDay,getCompanies,getDashboardStocks}
+
+
+//`https://finnhub.io/api/logo?symbol=${}`
