@@ -21,8 +21,12 @@ async function getDashboardCrypto(){
         }
     })
     const json = await response.json()
-    const chart = await getTimeSeriesData(json.data.coins[0].uuid)
-    return [json.data.coins.slice(0,5),chart]
+    const one_day = await getTimeSeriesData(json.data.coins[0].uuid,'24h')
+    const one_month = await getTimeSeriesData(json.data.coins[0].uuid,'30d')
+    const three_years = await getTimeSeriesData(json.data.coins[0].uuid,'3y')
+    const five_years = await getTimeSeriesData(json.data.coins[0].uuid,'5y')
+
+    return [json.data.coins.slice(0,5),{one_day,one_month,three_years,five_years}]
 }
 
 async function getCryptoByID(currencyId){
@@ -46,14 +50,18 @@ async function getCryptoByName(name){
     }
 }
 async function getTimeSeriesData(currencyId,timePeriod="30d"){
-    const response = await fetch(BASE_URL + `/coin/${currencyId}/history?timePeriod=30d`, {
+    const response = await fetch(BASE_URL + `/coin/${currencyId}/history?timePeriod=${timePeriod}`, {
         headers : {
             'X-Access-Token' : API_KEY,
             'Accept': 'application/json'
         }
     })
     const json = await response.json()
-    return json.data.history
+
+    const data = json.data.history.filter(obj => obj.price != null).map(obj => {
+        return [obj.timestamp * 1000,parseFloat(obj.price).toFixed(2)]
+    })
+    return data
 }   
 
 
