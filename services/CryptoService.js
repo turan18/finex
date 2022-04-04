@@ -37,8 +37,13 @@ async function getCryptoByID(currencyId){
         }
     })
     const json = await response.json()
-    return json.data.coins.slice(0,5)
+    const one_day = await getTimeSeriesData(currencyId,'24h')
+    const one_month = await getTimeSeriesData(currencyId,'30d')
+    const three_years = await getTimeSeriesData(currencyId,'3y')
+    const five_years = await getTimeSeriesData(currencyId,'5y')
+    return [json.data.coin,{one_day,one_month,three_years,five_years}]
 }
+
 
 async function getCryptoByName(name){
     const allCrpyto = getTopTwentyCrpyto()

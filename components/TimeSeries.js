@@ -4,7 +4,6 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function TimeSeries({data,symbol}) {
     const [timeline,setTimeline] = useState(data.five_years)
-    console.log(timeline);
     const time_ago = timeline[timeline.length - 1][0]
     var options = {
         series: [{
@@ -96,8 +95,8 @@ export default function TimeSeries({data,symbol}) {
     };
 
   return (
-    <div className='w-full flex justify-start'>
-        <div className='w-full lg:w-3/4 bg-sidebar p-3 rounded-lg relative h-full'>
+    <div className='w-full lg:w-3/4'>
+        <div className='w-full bg-sidebar p-3 rounded-lg relative h-full'>
             <Chart options={options} series={options.series} height={400}/>
             <div className='absolute top-2 w-5/6 flex justify-end'>
                 <div className='bg-timeline rounded-lg text-sm'>

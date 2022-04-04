@@ -3,7 +3,6 @@ import Sidebar from "../../components/Sidebar";
 import CryptoService from "../../services/CryptoService";
 
 export default function index({cryptocurrencies}) {
-  console.log(cryptocurrencies);
   return (
     <div className='w-screen min-h-screen bg-landing bg-no-repeat bg-center bg-fixed bg-cover flex'>
       <Sidebar />

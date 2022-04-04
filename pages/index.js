@@ -48,7 +48,7 @@ export default function Home() {
                     </div>
                     <div className='w-3/4 justify-center'>
                       <p className='leading-loose text-center text-gray-400'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Get to learn more about several of the differenet cryptocurrencies that we support(Bitcoin , Ethereum... and many more!)
                       </p>
                     </div>           
                   </div>
@@ -65,7 +65,7 @@ export default function Home() {
                     </div>
                     <div className='w-3/4 justify-center'>
                       <p className='leading-loose text-center text-gray-400'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Get to view that latest news pertaining to both crpytocurrencies and the stock market!
                       </p>
                     </div>           
                   </div>
@@ -81,7 +81,7 @@ export default function Home() {
                     </div>
                     <div className='w-3/4 justify-center'>
                       <p className='leading-loose text-center text-gray-400' >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                       Visualize your future with up-to-date charts that display the current prices of stock and crypto
                       </p>
                     </div>           
                   </div>

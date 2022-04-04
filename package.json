@@ -13,6 +13,7 @@
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.2",
     "finnhub": "^1.2.12",
+    "html-escaper": "^3.0.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.7",
     "next": "12.1.0",
